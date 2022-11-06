@@ -1,2 +1,3 @@
 # olx-parser
-Software for parsing OLX marketplace
+Simpe software for parsing OLX marketplace
+Just enter search query and enjoy
