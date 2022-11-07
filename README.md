@@ -7,4 +7,4 @@ pip install beautifulsoup4
 pip install requests
 pip install pandas
 ```
-The just run script, enter search query and enjoy
+Then just run script, enter search query and enjoy
