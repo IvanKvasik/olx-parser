@@ -1,5 +1,5 @@
 # Olx Parser
-Simpe software for parsing OLX marketplace  
+Simpe software for parsing OLX marketplace with exporting result to xls format  
 
 Install required modules by running
 ```
