@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as BS
 import pandas as pd
+import threading
 
 search = input('Search query: ')
 
@@ -9,9 +10,9 @@ r = requests.get('https://www.olx.ua/d/uk/list/q-' + '-'.join(search.split()))
 soup = BS(r.content, 'html.parser')
 posts_l = [[], [], []]
 
-posts = 1
-
-for i in range(int(soup.select('.pagination-item')[-1].text)+1):
+posts = 0
+def ParsePage(i):
+	global posts, posts_l, search
 	if(i==0):
 		r = requests.get('https://www.olx.ua/d/uk/list/q-' + '-'.join(search.split()))
 	else:
@@ -25,6 +26,13 @@ for i in range(int(soup.select('.pagination-item')[-1].text)+1):
 			posts_l[1].append('-')
 		posts_l[2].append('https://www.olx.ua' + post.select('a')[0].get('href'))
 		posts +=1
+threads = []
+for i in range(int(soup.select('.pagination-item')[-1].text)+1):
+	threads.append(threading.Thread(target=ParsePage, args=[i]))
+	threads[i].start()
+
+for j in threads:
+	j.join()
 
 writer = pd.ExcelWriter('_'.join(search.split()) + '.xlsx')
 xls = pd.DataFrame({'Name': posts_l[0], 'Cost': posts_l[1], 'Link': posts_l[2]})
